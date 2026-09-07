@@ -201,6 +201,45 @@ async function deleteItem(id) {
 
 }
 
+async function createEvent() {
+
+  const name =
+    document.getElementById('eventNameInput')
+      .value
+      .trim();
+
+  const code =
+    document.getElementById('eventCodeInput')
+      .value
+      .trim()
+      .toUpperCase();
+
+  if (!name || !code) {
+    alert('Fyll i både namn och eventkod');
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from('events')
+      .insert({
+        name: name,
+        event_code: code
+      });
+
+  if (error) {
+    console.log(error);
+    alert('Kunde inte skapa event');
+    return;
+  }
+
+  alert(
+    `Event skapat!\n\n` +
+    `${window.location.origin}?code=${code}`
+  );
+
+}
+
 window.onload = loadEvent;
 
 </script>
@@ -268,19 +307,33 @@ input {
 
 <div class="card">
 
-  <h2 id="eventName">
-    Laddar...
-  </h2>
+  <h3>🎉 Skapa event</h3>
+
+  <input
+    id="eventNameInput"
+    placeholder="Eventnamn">
+
+  <input
+    id="eventCodeInput"
+    placeholder="Eventkod">
+
+  <button onclick="createEvent()">
+    Skapa event
+  </button>
 
 </div>
 
 <div class="card">
-
-  <h3>🍽️ Att ta med</h3>
-
-  <div id="itemList"></div>
-
+  <h2 id="eventName">
+    Laddar...
+  </h2>
 </div>
+
+<div class="card">
+  <h3>🍽️ Att ta med</h3>
+  <div id="itemList"></div>
+</div>
+
 
 <div class="card">
 
