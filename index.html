@@ -94,7 +94,25 @@ async function loadItems() {
     div.innerHTML += `
       <div class="item-row">
 
-        🍽️ ${item.item_name}
+        <div class="item-row">
+
+  <div>
+
+    <strong>
+      ${item.item_name}
+    </strong>
+
+    <br>
+
+    ${
+      item.taken_by
+      ? `✅ Tas med av ${item.taken_by}`
+      : `⏳ Ingen har tagit denna ännu`
+    }
+
+  </div>
+
+</div>
 
       </div>
     `;
@@ -102,6 +120,35 @@ async function loadItems() {
   });
 
 }
+
+async function takeItem(id) {
+
+  const name =
+    prompt(
+      'Vad heter du?'
+    );
+
+  if (!name) {
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from('items')
+      .update({
+        taken_by: name
+      })
+      .eq('id', id);
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  loadItems();
+
+}
+
 
 async function addItem() {
 
@@ -126,6 +173,29 @@ async function addItem() {
   }
 
   document.getElementById('itemName').value = '';
+
+  loadItems();
+
+}
+
+async function deleteItem(id) {
+
+  if (
+    !confirm('Radera?')
+  ) {
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from('items')
+      .delete()
+      .eq('id', id);
+
+  if (error) {
+    console.log(error);
+    return;
+  }
 
   loadItems();
 
@@ -223,6 +293,12 @@ input {
   <button onclick="addItem()">
     Lägg till
   </button>
+  <button
+onclick="deleteItem('${item.id}')">
+
+🗑️
+
+</button>
 
 </div>
 
