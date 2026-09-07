@@ -1,11 +1,231 @@
 <!DOCTYPE html>
-<html>
+<html lang="sv">
+
 <head>
-  <title>Knytkalas</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Knytkalas</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+
+const supabaseClient =
+  window.supabase.createClient(
+    "DIN_SUPABASE_URL",
+    "DIN_SUPABASE_ANON_KEY"
+  );
+
+let currentEventId = null;
+
+async function loadEvent() {
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const code =
+    params.get('code');
+
+  if (!code) {
+
+    document.getElementById('eventName')
+      .textContent =
+      'Ingen eventkod angiven';
+
+    return;
+
+  }
+
+  const { data, error } =
+    await supabaseClient
+      .from('events')
+      .select('*')
+      .eq('event_code', code)
+      .single();
+
+  if (error) {
+
+    console.log(error);
+
+    document.getElementById('eventName')
+      .textContent =
+      'Eventet hittades inte';
+
+    return;
+
+  }
+
+  currentEventId = data.id;
+
+  document.getElementById('eventName')
+    .textContent =
+    `🎉 ${data.name}`;
+
+  loadItems();
+
+}
+
+async function loadItems() {
+
+  if (!currentEventId) return;
+
+  const { data, error } =
+    await supabaseClient
+      .from('items')
+      .select('*')
+      .eq('event_id', currentEventId);
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  const div =
+    document.getElementById('itemList');
+
+  div.innerHTML = '';
+
+  data.forEach(item => {
+
+    div.innerHTML += `
+      <div class="item-row">
+
+        🍽️ ${item.item_name}
+
+      </div>
+    `;
+
+  });
+
+}
+
+async function addItem() {
+
+  const itemName =
+    document.getElementById('itemName')
+      .value
+      .trim();
+
+  if (!itemName) return;
+
+  const { error } =
+    await supabaseClient
+      .from('items')
+      .insert({
+        event_id: currentEventId,
+        item_name: itemName
+      });
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  document.getElementById('itemName').value = '';
+
+  loadItems();
+
+}
+
+window.onload = loadEvent;
+
+</script>
+
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  background: #f7f8fb;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+button {
+  background: #7289C8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 14px;
+}
+
+button:hover {
+  background: #6178B8;
+}
+
+input {
+  padding: 10px;
+}
+
+.item-row {
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  background: #F8F4E8;
+}
+
+@media (max-width: 768px) {
+
+  input,
+  button {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+
+}
+
+</style>
+
 </head>
+
 <body>
 
 <h1>🎉 Knytkalas</h1>
 
+<div class="card">
+
+  <h2 id="eventName">
+    Laddar...
+  </h2>
+
+</div>
+
+<div class="card">
+
+  <h3>🍽️ Att ta med</h3>
+
+  <div id="itemList"></div>
+
+</div>
+
+<div class="card">
+
+  <h3>➕ Lägg till något</h3>
+
+  <input
+    id="itemName"
+    placeholder="T.ex. Potatissallad">
+
+  <button onclick="addItem()">
+    Lägg till
+  </button>
+
+</div>
+
 </body>
+
 </html>
