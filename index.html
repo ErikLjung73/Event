@@ -53,7 +53,7 @@ async function loadParty() {
 
     document.getElementById('eventName')
       .textContent =
-      'Eventet hittades inte';
+      '';
 
     return;
 
@@ -93,9 +93,6 @@ async function loadItems() {
 
     div.innerHTML += `
       <div class="item-row">
-
-        <div class="item-row">
-
   <div>
 
     <strong>
@@ -214,8 +211,8 @@ async function createParty() {
     .substring(2, 8)
     .toUpperCase();
 
-  if (!name || !code) {
-    alert('Fyll i både namn och eventkod');
+  if (!name) {
+    alert('Ange namn på event');
     return;
   }
 
@@ -234,10 +231,9 @@ async function createParty() {
   }
 
   alert(
-    `Event skapat!\n\n` +
-    `${window.location.origin}?code=${code}`
-  );
-
+    `Event skapat!`);
+    window.location.href =
+    `${window.location.pathname}?code=${code}`;
 }
 
 window.onload = loadParty;
@@ -343,12 +339,6 @@ input {
   <button onclick="addItem()">
     Lägg till
   </button>
-  <button
-onclick="deleteItem('${item.id}')">
-
-🗑️
-
-</button>
 
 </div>
 
