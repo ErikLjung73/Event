@@ -32,9 +32,9 @@ async function loadParty() {
 
   if (!code) {
 
-  document
-    .getElementById('selectedParty')
-    .classList.remove('party-selected');
+  document.getElementById(
+  'activePartyTitle'
+).style.display = 'none';
 
   document.getElementById('eventName')
     .textContent =
@@ -68,6 +68,10 @@ async function loadParty() {
   document
   .getElementById('selectedParty')
   .classList.add('party-selected');
+
+  document.getElementById(
+  'activePartyTitle'
+).style.display = 'block';
   
   document.getElementById('eventName')
     .textContent =
@@ -380,6 +384,11 @@ input {
   font-weight: 600;
 }
 
+#activePartyTitle {
+  margin-top: 25px;
+  margin-bottom: 10px;
+  color: #556b94;
+}
 
 @media (max-width: 768px) {
 
@@ -419,12 +428,19 @@ input {
   <h3>📋 Mina knytkalas</h3>
   <div id="partyList"></div>
 </div>
-  
+
+<h3 id="activePartyTitle">
+  🎯 Aktivt knytkalas
+</h3>
+
 <div class="card" id="selectedParty">
+
   <h2 id="eventName">
-    Laddar...
+    Välj ett knytkalas
   </h2>
+
 </div>
+
 
 <div class="card">
   <h3>🍽️ Att ta med</h3>
