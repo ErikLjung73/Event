@@ -20,7 +20,7 @@ const supabaseClient =
 
 let currentEventId = null;
 
-async function loadEvent() {
+async function loadParty() {
 
   const params =
     new URLSearchParams(
@@ -28,13 +28,16 @@ async function loadEvent() {
     );
 
   const code =
-    params.get('code');
+  Math.random()
+    .toString(36)
+    .substring(2, 8)
+    .toUpperCase();
 
   if (!code) {
 
     document.getElementById('eventName')
       .textContent =
-      'Ingen eventkod angiven';
+      'Skapa ett nytt knytkalas ovan';
 
     return;
 
@@ -201,7 +204,7 @@ async function deleteItem(id) {
 
 }
 
-async function createEvent() {
+async function createParty() {
 
   const name =
     document.getElementById('eventNameInput')
@@ -240,7 +243,7 @@ async function createEvent() {
 
 }
 
-window.onload = loadEvent;
+window.onload = loadParty;
 
 </script>
 
@@ -313,11 +316,8 @@ input {
     id="eventNameInput"
     placeholder="Eventnamn">
 
-  <input
-    id="eventCodeInput"
-    placeholder="Eventkod">
 
-  <button onclick="createEvent()">
+  <button onclick="createParty()">
     Skapa event
   </button>
 
