@@ -32,13 +32,17 @@ async function loadParty() {
 
   if (!code) {
 
-    document.getElementById('eventName')
-      .textContent =
-      'Skapa ett nytt knytkalas ovan';
+  document
+    .getElementById('selectedParty')
+    .classList.remove('party-selected');
 
-    return;
+  document.getElementById('eventName')
+    .textContent =
+    'Skapa ett nytt knytkalas ovan';
 
-  }
+  return;
+
+}
 
   const { data, error } =
     await supabaseClient
@@ -61,6 +65,10 @@ async function loadParty() {
 
   currentEventId = data.id;
 
+  document
+  .getElementById('selectedParty')
+  .classList.add('party-selected');
+  
   document.getElementById('eventName')
     .textContent =
     `🎉 ${data.name}`;
@@ -289,13 +297,23 @@ input {
 }
 
 #selectedParty {
-  background: #e9eff8;
+  background: white;
   border: 1px solid #d5dfef;
 }
 
 #selectedParty h2 {
+  color: white;
+}
+
+.party-selected {
+  background: #e9eff8 !important;
+  border: 1px solid #d5dfef;
+}
+
+.party-selected h2 {
   color: #556b94;
 }
+
 
 @media (max-width: 768px) {
 
