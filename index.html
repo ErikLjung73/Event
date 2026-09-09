@@ -19,6 +19,7 @@ const supabaseClient =
   );
 
 let currentEventId = null;
+  let members = [];
 
 async function loadParty() {
 
@@ -102,6 +103,17 @@ async function loadItems() {
   const div =
     document.getElementById('itemList');
 
+  const options =
+  members.map(member => `
+    <option
+      value="${member.name}"
+      ${item.taken_by === member.name ? 'selected' : ''}>
+
+      ${member.name}
+
+    </option>
+  `).join('');
+  
   div.innerHTML = '';
 
   data.forEach(item => {
@@ -114,18 +126,24 @@ async function loadItems() {
       </span>
 
     <span class="item-owner">
-      ${
-        item.taken_by
-          ? `✅ ${item.taken_by}`
-          : `⏳ Ledig`
-      }
-    </span>  
-    <button
-  onclick="takeItem('${item.id}')">
 
-  Jag tar denna
+  <select
+    onchange="assignItem(
+      '${item.id}',
+      this.value
+    )">
 
-</button>
+    <option value="">
+      Ledig
+    </option>
+
+    ${options}
+
+  </select>
+
+</span>
+
+    
 
     </div>
   `;
@@ -373,6 +391,8 @@ async function addMember() {
     return;
   }
 
+    members = data;
+
   const div =
     document.getElementById('memberList');
 
@@ -387,6 +407,25 @@ async function addMember() {
     `;
 
   });
+
+}
+
+  async function assignItem(id, name) {
+
+  const { error } =
+    await supabaseClient
+      .from('items')
+      .update({
+        taken_by: name || null
+      })
+      .eq('id', id);
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  loadItems();
 
 }
 
