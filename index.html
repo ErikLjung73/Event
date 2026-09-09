@@ -124,8 +124,11 @@ async function loadItems() {
   `).join('');
 
     div.innerHTML += `
-      <div class="item-row">
-
+    <div class="item-row ${
+      item.taken_by
+          ? 'taken'
+          : 'available'
+        }">
       <span class="item-name">
         ${item.item_name}
       </span>
