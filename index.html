@@ -28,10 +28,7 @@ async function loadParty() {
     );
 
   const code =
-  Math.random()
-    .toString(36)
-    .substring(2, 8)
-    .toUpperCase();
+  params.get('code');
 
   if (!code) {
 
@@ -212,10 +209,10 @@ async function createParty() {
       .trim();
 
   const code =
-    document.getElementById('eventCodeInput')
-      .value
-      .trim()
-      .toUpperCase();
+  Math.random()
+    .toString(36)
+    .substring(2, 8)
+    .toUpperCase();
 
   if (!name || !code) {
     alert('Fyll i både namn och eventkod');
