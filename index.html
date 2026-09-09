@@ -239,8 +239,56 @@ async function createParty() {
     `${window.location.pathname}?code=${code}`;
 }
 
-window.onload = loadParty;
+async function loadPartyList() {
 
+  const { data, error } =
+    await supabaseClient
+      .from('events')
+      .select('*')
+      .order('created_at', {
+        ascending: false
+      });
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  const div =
+    document.getElementById('partyList');
+
+  div.innerHTML = '';
+
+  data.forEach(party => {
+
+    div.innerHTML += `
+      <div
+        class="party-row"
+        onclick="openParty('${party.event_code}')">
+
+        🎉 ${party.name}
+
+      </div>
+    `;
+
+  });
+}
+
+function openParty(code) {
+
+  window.location.href =
+    `?code=${code}`;
+
+}
+
+window.onload = () => {
+
+  loadParty();
+
+  loadPartyList();
+
+};
+  
 </script>
 
 <style>
@@ -314,6 +362,24 @@ input {
   color: #556b94;
 }
 
+.party-row {
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #f5f7fb;
+}
+
+.party-row:hover {
+  background: #e9eff8;
+}
+
+.party-row.selected {
+  background: #dce5f5;
+  color: #31508a;
+  font-weight: 600;
+}
+
 
 @media (max-width: 768px) {
 
@@ -349,6 +415,11 @@ input {
 
 </div>
 
+<div class="card">
+  <h3>📋 Mina knytkalas</h3>
+  <div id="partyList"></div>
+</div>
+  
 <div class="card" id="selectedParty">
   <h2 id="eventName">
     Laddar...
