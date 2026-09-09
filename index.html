@@ -35,10 +35,12 @@ async function loadParty() {
   document.getElementById(
   'activePartyTitle'
 ).style.display = 'none';
+    document.getElementById(
+  'selectedParty'
+).style.display = 'none';
 
   document.getElementById('eventName')
-    .textContent =
-    'Skapa ett nytt knytkalas ovan';
+  .textContent = '';
 
   return;
 
@@ -229,13 +231,15 @@ async function createParty() {
     return;
   }
 
-  const { error } =
-    await supabaseClient
-      .from('events')
-      .insert({
-        name: name,
-        event_code: code
-      });
+  const { data, error } =
+  await supabaseClient
+    .from('events')
+    .insert({
+      name: name,
+      event_code: code
+    })
+    .select()
+    .single();
 
   if (error) {
     console.log(error);
@@ -243,11 +247,20 @@ async function createParty() {
     return;
   }
 
-  alert(
-    `Event skapat!`);
-    window.location.href =
-    `${window.location.pathname}?code=${code}`;
-}
+  currentEventId = data.id;
+
+document.getElementById('eventName')
+  .textContent =
+  `🎉 ${data.name}`;
+
+document.getElementById('selectedParty')
+  .classList.add('party-selected');
+
+document.getElementById('activePartyTitle')
+  .style.display = 'block';
+
+loadPartyList();
+  loadItems();
 
 async function loadPartyList() {
 
