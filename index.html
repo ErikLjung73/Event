@@ -94,6 +94,9 @@ async function loadItems() {
       .from('items')
       .select('*')
       .eq('event_id', currentEventId);
+      .order('created_at', {
+        ascending: true
+      })
 
   if (error) {
     console.log(error);
