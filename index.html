@@ -80,6 +80,7 @@ async function loadParty() {
     `🎉 ${data.name}`;
 
   loadItems();
+  loadMembers();
 
 }
 
@@ -325,6 +326,70 @@ async function takeItem(id) {
 
 }
 
+async function addMember() {
+
+  const name =
+    document.getElementById('memberName')
+      .value
+      .trim();
+
+  if (!name || !currentEventId) {
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from('party_members')
+      .insert({
+        event_id: currentEventId,
+        name: name
+      });
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  document.getElementById('memberName').value = '';
+
+  loadMembers();
+
+}
+
+  async function loadMembers() {
+
+  if (!currentEventId) {
+    return;
+  }
+
+  const { data, error } =
+    await supabaseClient
+      .from('party_members')
+      .select('*')
+      .eq('event_id', currentEventId);
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  const div =
+    document.getElementById('memberList');
+
+  div.innerHTML = '';
+
+  data.forEach(member => {
+
+    div.innerHTML += `
+      <div>
+        👤 ${member.name}
+      </div>
+    `;
+
+  });
+
+}
+
 function openParty(code) {
 
   window.location.href =
@@ -488,6 +553,21 @@ input {
 
 </div>
 
+<div class="card">
+
+  <h3>👥 Deltagare</h3>
+
+  <div id="memberList"></div>
+
+  <input
+    id="memberName"
+    placeholder="Namn">
+
+  <button onclick="addMember()">
+    Lägg till
+  </button>
+
+</div>
 
 <div class="card">
   <h3>🍽️ Att ta med</h3>
