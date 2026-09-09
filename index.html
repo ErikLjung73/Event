@@ -92,11 +92,11 @@ async function loadItems() {
   data.forEach(item => {
 
     div.innerHTML += `
-  <div class="item-row">
+      <div class="item-row">
 
-    <span class="item-name">
-      ${item.item_name}
-    </span>
+      <span class="item-name">
+        ${item.item_name}
+      </span>
 
     <span class="item-owner">
       ${
@@ -106,12 +106,8 @@ async function loadItems() {
       }
     </span>
 
-  </div>
+    </div>
   `;
-</div>
-
-      </div>
-    `;
 
   });
 
