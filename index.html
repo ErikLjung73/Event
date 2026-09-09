@@ -80,8 +80,8 @@ async function loadParty() {
     .textContent =
     `🎉 ${data.name}`;
 
+  await loadMembers();
   loadItems();
-  loadMembers();
 
 }
 
@@ -103,7 +103,13 @@ async function loadItems() {
   const div =
     document.getElementById('itemList');
 
-  const options =
+  
+  
+  div.innerHTML = '';
+
+  data.forEach(item => {
+
+    const options =
   members.map(member => `
     <option
       value="${member.name}"
@@ -113,10 +119,6 @@ async function loadItems() {
 
     </option>
   `).join('');
-  
-  div.innerHTML = '';
-
-  data.forEach(item => {
 
     div.innerHTML += `
       <div class="item-row">
