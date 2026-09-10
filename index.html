@@ -419,7 +419,7 @@ async function addMember() {
     </span>
 
     <button
-      onclick="deleteParticipant('${member.id}')">
+      onclick="deleteMember('${member.id}')">
 
       🗑️
 
@@ -448,6 +448,31 @@ async function addMember() {
   }
 
   loadItems();
+
+}
+
+  async function deleteMember(id) {
+
+  if (
+    !confirm(
+      'Ta bort deltagaren?'
+    )
+  ) {
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from('party_members')
+      .delete()
+      .eq('id', id);
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  loadMembers();
 
 }
 
