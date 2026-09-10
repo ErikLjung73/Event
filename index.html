@@ -162,12 +162,16 @@ if (
     : 'available'
 );
 
+    const isTaken =
+  item.taken_by &&
+  item.taken_by.trim() !== '';
+
     div.innerHTML += `
     <div class="item-row ${
-      (item.taken_by && item.taken_by.trim())
-          ? 'taken'
-          : 'available'
-        }">
+        isTaken
+        ? 'taken'
+        : 'available'
+      }">
       <span class="item-name">
         ${item.item_name}
       </span>
