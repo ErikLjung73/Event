@@ -479,6 +479,7 @@ async function addMember() {
     return;
   }
 
+    console.log("Members:", data);
     members = data;
 
   const div =
@@ -537,6 +538,12 @@ async function addMember() {
 
   async function deleteMember(id, name) {
 
+console.log(
+  'deleteMember:',
+  id,
+  name
+);
+    
   if (
     !confirm(
       'Ta bort deltagaren?'
