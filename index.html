@@ -385,6 +385,17 @@ async function takeItem(id) {
   loadItems();
 
 }
+  
+  async function copyPartyLink(code) {
+
+  const url =
+    `${window.location.origin}?code=${code}`;
+
+  await navigator.clipboard.writeText(url);
+
+  alert('Länk kopierad');
+
+}
 
 async function addMember() {
 
