@@ -326,13 +326,35 @@ async function loadPartyList() {
   data.forEach(party => {
 
     div.innerHTML += `
-      <div
-        class="party-row"
-        onclick="openParty('${party.event_code}')">
+      <div class="party-row">
 
-        🎉 ${party.name}
+  <span
+    onclick="openParty('${party.event_code}')">
 
-      </div>
+    🎉 ${party.name}
+
+  </span>
+
+  <div class="party-actions">
+
+    <button
+      onclick="copyPartyLink('${party.event_code}')">
+
+      🔗
+
+    </button>
+
+    <button
+      onclick="deleteParty('${party.id}')">
+
+      🗑️
+
+    </button>
+
+  </div>
+
+</div>
+
     `;
 
   });
@@ -601,11 +623,14 @@ input {
 }
 
 .party-row {
-  padding: 10px;
-  margin-bottom: 8px;
-  border-radius: 6px;
-  cursor: pointer;
-  background: #f5f7fb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.party-actions {
+  display: flex;
+  gap: 6px;
 }
 
 .party-row:hover {
