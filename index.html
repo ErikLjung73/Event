@@ -383,8 +383,8 @@ async function addMember() {
 
   document.getElementById('memberName').value = '';
 
-  loadMembers();
-
+  await loadMembers();
+  loadItems();
 }
 
   async function loadMembers() {
@@ -542,10 +542,16 @@ input {
 }
 
 .item-owner {
-  color: #556b94;
-  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
+.item-owner button {
+  margin: 0;
+  width: auto;
+}
+  
 #selectedParty {
   background: white;
   border: 1px solid #d5dfef;
@@ -596,6 +602,10 @@ input {
 .item-row.taken {
   background: #f2f8f2;
   border-left: 4px solid #cae4cc;
+}
+
+.participant-row {
+  gap: 15px;
 }
 
 
