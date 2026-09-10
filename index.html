@@ -106,7 +106,14 @@ async function loadItems() {
   const div =
     document.getElementById('itemList');
 
-  
+  const takenCount =
+  data.filter(item => item.taken_by).length;
+
+const totalCount =
+  data.length;
+
+const availableCount =
+  totalCount - takenCount;
   
   div.innerHTML = '';
 
@@ -432,6 +439,15 @@ async function addMember() {
 
 }
 
+  async function copyLink() {
+
+  await navigator.clipboard.writeText(
+    window.location.href
+  );
+
+  alert('Länk kopierad!');
+}
+
   async function assignItem(id, name) {
 
   const { error } =
@@ -481,6 +497,20 @@ function openParty(code) {
   window.location.href =
     `?code=${code}`;
 
+}
+
+  async function deleteParty(id) {
+
+  if (!confirm('Ta bort knytkalaset?')) {
+    return;
+  }
+
+  await supabaseClient
+    .from('events')
+    .delete()
+    .eq('id', id);
+
+  loadPartyList();
 }
 
 window.onload = () => {
@@ -613,6 +643,11 @@ input {
   margin-bottom: 6px;
 }
 
+  #itemStats {
+  color: #5f8c63;
+  font-weight: 600;
+}
+
 
 @media (max-width: 768px) {
 
@@ -698,6 +733,14 @@ input {
   <button onclick="addItem()">
     Lägg till
   </button>
+
+</div>
+
+<div class="card">
+
+  <h3>📊 Status</h3>
+
+  <div id="itemStats"></div>
 
 </div>
 
