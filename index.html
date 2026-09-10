@@ -151,7 +151,12 @@ async function loadItems() {
 
 </span>
 
-    
+    <button
+  onclick="deleteItem('${item.id}')">
+
+  🗑️
+
+</button>
 
     </div>
   `;
@@ -408,10 +413,20 @@ async function addMember() {
 
   data.forEach(member => {
 
-    div.innerHTML += `
-      <div>
-        👤 ${member.name}
-      </div>
+    <div class="participant-row">
+
+  <span>
+    👤 ${participant.name}
+  </span>
+
+  <button
+    onclick="deleteParticipant('${participant.id}')">
+
+    🗑️
+
+  </button>
+
+</div>
     `;
 
   });
