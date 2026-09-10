@@ -154,9 +154,17 @@ if (
     </option>
   `).join('');
 
+    console.log(
+  item.item_name,
+  item.taken_by,
+  item.taken_by
+    ? 'taken'
+    : 'available'
+);
+
     div.innerHTML += `
     <div class="item-row ${
-      item.taken_by
+      (item.taken_by && item.taken_by.trim())
           ? 'taken'
           : 'available'
         }">
