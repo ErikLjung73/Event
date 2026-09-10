@@ -106,14 +106,38 @@ async function loadItems() {
   const div =
     document.getElementById('itemList');
 
+  const totalCount =
+  data.length;
+  
   const takenCount =
   data.filter(item => item.taken_by).length;
 
-const totalCount =
-  data.length;
-
 const availableCount =
   totalCount - takenCount;
+
+const statsDiv =
+  document.getElementById('itemStats');
+
+if (
+  totalCount > 0 &&
+  takenCount === totalCount
+) {
+
+  statsDiv.style.background = 
+    '#f2f8f2';
+
+  statsDiv.innerHTML =
+    '🎉 Allt är ordnat!';
+
+} else {
+
+  statsDiv.innerHTML =
+    `✅ ${takenCount} av ${totalCount} saker tilldelade
+     <br>
+     ⏳ ${availableCount} saker kvar`;
+
+}
+
   
   div.innerHTML = '';
 
@@ -679,9 +703,15 @@ input {
   margin-bottom: 6px;
 }
 
-  #itemStats {
-  color: #5f8c63;
-  font-weight: 600;
+ #itemStats {
+  margin-bottom: 15px;
+  padding: 10px;
+
+  border-radius: 8px;
+
+  background: #f5f7fb;
+
+  color: #556b94;
 }
 
 
@@ -754,6 +784,7 @@ input {
 
 <div class="card">
   <h3>🍽️ Att ta med</h3>
+  <div id="itemStats"></div>
   <div id="itemList"></div>
 </div>
 
