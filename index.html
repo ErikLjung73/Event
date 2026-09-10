@@ -483,7 +483,7 @@ async function addMember() {
     </span>
 
     <button
-      onclick="deleteMember('${member.id}')">
+      onclick="deleteMember('${member.id}, '${member.name}'')">
 
       🗑️
 
@@ -534,6 +534,14 @@ async function addMember() {
     return;
   }
 
+    await supabaseClient
+    .from('items')
+    .update({
+    taken_by: null
+    })
+    .eq('event_id', currentEventId)
+    .eq('taken_by', name);
+  
   const { error } =
     await supabaseClient
       .from('party_members')
@@ -545,8 +553,8 @@ async function addMember() {
     return;
   }
 
-  loadMembers();
-
+  await loadMembers();
+  loadItems();
 }
 
 function openParty(code) {
