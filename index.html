@@ -334,8 +334,9 @@ document.getElementById('selectedParty')
 document.getElementById('activePartyTitle')
   .style.display = 'block';
 
-loadPartyList();
-  loadItems();
+  await loadPartyList();
+  await loadMembers();
+  await loadItems();
 
 }
   
@@ -362,11 +363,10 @@ async function loadPartyList() {
   data.forEach(party => {
 
     div.innerHTML += `
-      <div class="party-row">
-
-  <span
+      <div
+      class="party-row"
     onclick="openParty('${party.event_code}')">
-
+  <span>
     🎉 ${party.name}
 
   </span>
@@ -374,14 +374,13 @@ async function loadPartyList() {
   <div class="party-actions">
 
     <button
-      onclick="copyPartyLink('${party.event_code}')">
-
+  onclick="event.stopPropagation(); copyPartyLink('${party.event_code}')">
       🔗
 
     </button>
 
     <button
-      onclick="deleteParty('${party.id}')">
+      onclick="event.stopPropagation(); deleteParty('${party.id}')">
 
       🗑️
 
@@ -536,7 +535,7 @@ async function addMember() {
 
 }
 
-  async function deleteMember(id) {
+  async function deleteMember(id, name) {
 
   if (
     !confirm(
