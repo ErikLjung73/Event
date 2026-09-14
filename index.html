@@ -375,11 +375,12 @@ async function loadPartyList() {
 
     <button
   onclick="event.stopPropagation(); copyPartyLink('${party.event_code}')">
-      📋
+      🔗
 
     </button>
 
     <button
+      class="delete-btn"
       onclick="event.stopPropagation(); deleteParty('${party.id}')">
 
       🗑️
@@ -495,6 +496,7 @@ async function addMember() {
     </span>
 
     <button
+      class="delete-btn"
       onclick="deleteMember('${member.id}', '${member.name}')">
 
       🗑️
@@ -733,6 +735,15 @@ input {
 
   max-width: 160px;
   margin-bottom: 6px;
+}
+
+.delete-btn {
+  background: #d4a6a6;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #c99696;
 }
 
  #itemStats {
