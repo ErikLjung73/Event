@@ -375,7 +375,7 @@ async function loadPartyList() {
 
     <button
   onclick="event.stopPropagation(); copyPartyLink('${party.event_code}')">
-      🔗
+      📋
 
     </button>
 
@@ -671,11 +671,12 @@ input {
 }
 
 #selectedParty h2 {
-  color: white;
+  color: #556b94;
+  font-weight: 700;
 }
 
 .party-selected {
-  background: #e9eff8 !important;
+  background: #dde7f7
   border: 1px solid #d5dfef;
 }
 
@@ -694,6 +695,11 @@ input {
   gap: 6px;
 }
 
+.party-actions button {
+  color: white;
+  font-size: 18px;
+}
+  
 .party-row:hover {
   background: #e9eff8;
 }
