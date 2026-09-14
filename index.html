@@ -694,14 +694,27 @@ input {
 }
 
 .party-actions {
-  display: flex;
-  gap: 10px;
+  gap: 16px;
 }
 
-.party-actions button {
-  color: white;
+.party-actions button,
+.delete-btn {
   width: 40px;
-  min-width: 40px;
+  height: 40px;
+
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn {
+  background: #e6a7b5;
+}
+
+.party-actions button:first-child {
+  margin-right: 12px;
 }
   
 .party-row:hover {
@@ -744,15 +757,8 @@ input {
   white-space: nowrap;
 }
 
-.delete-btn {
-  background: #d8a3a9;
-  color: white;
-  width: auto !important;
-  min-width: 40px;
-}
-
 .delete-btn:hover {
-  background: #d8a3a9;
+  background: #dc98a8;
 }
 
  #itemStats {
